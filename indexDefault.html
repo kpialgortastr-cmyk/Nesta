@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>¡Feliz cumpleaños!</title>
+<style>
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: white;
+    color: #111;
+    font-family: "Inter", system-ui, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .container {
+    text-align: center;
+    max-width: 900px;
+    width: 100%;
+    padding: 20px;
+  }
+
+  .typed {
+    display: inline-block;
+    font-size: clamp(26px, 4vw, 42px);
+    font-weight: 600;
+    white-space: pre-wrap;
+    border-right: none;
+    padding-right: 4px;
+    min-height: 1.2em;
+  }
+
+  .typed:not(:empty),
+  .typed.typing {
+    border-right: 2px solid rgba(0,0,0,0.6);
+  }
+
+  .typed.done {
+    border-right-color: transparent;
+  }
+
+  .photo {
+    display: none;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div id="typed" class="typed" aria-live="polite"></div>
+    <img id="photo" class="photo" alt="фото">
+  </div>
+
+<script>
+const firstText = "Отже сьогодні тобі дев'ятнадцять. \n Бажаю бути такою ж чарівною як ти є зараз, бо неможливо навіть уявити когось краще. Ти - людина, моменти з якою хочеться проживати знову і знову, а спогади зберегти навічно.";
+const finalText = "Пам'ятай, ти НЕЙМОВІРНА <3";
+const typingSpeed = 30; 
+const pauseBetween = 5000; 
+const photoDelay = 250; 
+
+const images = [
+  "Nesta_Photos/photo_57_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_53_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_1_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_2_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_3_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_4_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_5_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_6_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_7_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_56_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_58_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_8_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_9_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_13_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_10_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_11_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_60_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_12_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_59_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_61_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_14_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_15_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_16_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_62_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_17_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_18_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_63_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_19_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_20_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_21_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_22_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_23_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_24_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_25_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_26_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_27_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_28_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_29_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_54_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_55_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_31_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_30_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_32_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_33_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_34_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_35_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_36_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_37_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_38_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_39_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_40_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_41_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_52_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_42_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_43_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_44_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_45_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_46_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_47_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_48_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_49_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_50_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_51_2025-11-06_23-43-49.jpg",
+  "Nesta_Photos/photo_2025-10-09_18-15-03.jpg"
+];
+
+const typedEl = document.getElementById("typed");
+const photoEl = document.getElementById("photo");
+
+function typeText(el, text, speed) {
+  return new Promise(resolve => {
+    el.textContent = "";
+    el.classList.remove("done");
+    el.classList.add("typing");
+    let i = 0;
+    function step() {
+      if (i < text.length) {
+        el.textContent += text[i++];
+        setTimeout(step, speed);
+      } else {
+        el.classList.remove("typing");
+        el.classList.add("done");
+        resolve();
+      }
+    }
+    step();
+  });
+}
+
+async function showPhotos() {
+  for (let src of images) {
+    photoEl.src = src;
+    photoEl.style.display = "block";
+    await new Promise(r => setTimeout(r, photoDelay));
+  }
+}
+
+async function runSequence() {
+  await typeText(typedEl, firstText, typingSpeed);
+
+  await new Promise(r => setTimeout(r, pauseBetween));
+  typedEl.textContent = "";
+  typedEl.classList.remove("done"); 
+
+  await showPhotos();
+  photoEl.style.display = "none";
+
+  await typeText(typedEl, finalText, typingSpeed);
+}
+
+window.addEventListener("DOMContentLoaded", runSequence);
+</script>
+</body>
+</html>
